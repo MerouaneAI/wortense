@@ -1,0 +1,73 @@
+@import '@fontsource-variable/inter';
+@import '@fontsource-variable/fraunces';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Colours are stored as RGB channel triplets and consumed via
+       rgb(var(--x) / <alpha-value>) so Tailwind opacity modifiers work. */
+    --bg: 250 247 242; /* #FAF7F2 */
+    --surface: 255 255 255; /* #FFFFFF */
+    --ink: 31 27 22; /* #1F1B16 */
+    --muted: 107 100 91; /* #6B645B */
+    --line: 231 224 213; /* #E7E0D5 */
+    --brand: 194 65 12; /* #C2410C */
+
+    /* Feedback (AA-checked against surface / white text as used later). */
+    --correct: 21 128 61; /* #15803D green */
+    --close: 180 83 9; /* #B45309 amber */
+    --far: 120 113 108; /* #78716C gray */
+
+    /* High-contrast, colour-blind-safe palette (orange / blue). */
+    --hc-correct: 26 133 255; /* #1A85FF blue */
+    --hc-close: 230 97 0; /* #E66100 orange */
+    --hc-far: 120 113 108; /* #78716C gray */
+  }
+
+  .dark {
+    --bg: 22 19 15; /* #16130F */
+    --surface: 33 29 24; /* #211D18 */
+    --ink: 244 239 231; /* #F4EFE7 */
+    --muted: 167 159 147; /* #A79F93 */
+    --line: 58 52 44; /* #3A342C */
+    --brand: 234 88 12; /* #EA580C */
+
+    --correct: 74 222 128; /* #4ADE80 */
+    --close: 251 191 36; /* #FBBF24 */
+    --far: 168 162 158; /* #A8A29E */
+
+    --hc-correct: 96 165 250; /* #60A5FA */
+    --hc-close: 251 146 60; /* #FB923C */
+    --hc-far: 168 162 158; /* #A8A29E */
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100svh;
+    background-color: rgb(var(--bg));
+    color: rgb(var(--ink));
+    font-family: theme('fontFamily.sans');
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    /* Touch hardening for the drag-and-drop ladder (Phase 9 builds on this). */
+    overscroll-behavior: none;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+  }
+
+  #root {
+    min-height: 100svh;
+  }
+
+  :where(button) {
+    font: inherit;
+  }
+}

@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+
+    <title>Wortense — the shades-of-meaning word game</title>
+    <meta
+      name="description"
+      content="Wortense is a daily word game that teaches English learners the shades of meaning of near-synonyms. Order the words from mildest to most intense."
+    />
+
+    <!-- theme-color is kept in sync at runtime; these are the first-paint defaults. -->
+    <meta
+      name="theme-color"
+      media="(prefers-color-scheme: light)"
+      content="#faf7f2"
+    />
+    <meta
+      name="theme-color"
+      media="(prefers-color-scheme: dark)"
+      content="#16130f"
+    />
+
+    <!-- Open Graph / Twitter. The single canonical placeholder domain
+         https://wortense.example is used here and listed in the README. -->
+    <link rel="canonical" href="https://wortense.example/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Wortense" />
+    <meta property="og:title" content="Wortense — the shades-of-meaning word game" />
+    <meta
+      property="og:description"
+      content="Order near-synonyms from mildest to most intense. A daily word game for English learners."
+    />
+    <meta property="og:url" content="https://wortense.example/" />
+    <meta property="og:image" content="https://wortense.example/og-image.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Wortense — the shades-of-meaning word game" />
+    <meta
+      name="twitter:description"
+      content="Order near-synonyms from mildest to most intense. A daily word game for English learners."
+    />
+    <meta name="twitter:image" content="https://wortense.example/og-image.png" />
+
+    <!-- No-flash theme: apply the .dark class before first paint. -->
+    <script>
+      (function () {
+        try {
+          var SETTINGS_KEY = 'wortense:v1:settings';
+          var theme = 'system';
+          var raw = localStorage.getItem(SETTINGS_KEY);
+          if (raw) {
+            var parsed = JSON.parse(raw);
+            if (
+              parsed &&
+              (parsed.theme === 'light' ||
+                parsed.theme === 'dark' ||
+                parsed.theme === 'system')
+            ) {
+              theme = parsed.theme;
+            }
+          }
+          var prefersDark =
+            window.matchMedia &&
+            window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme === 'system' && prefersDark);
+          document.documentElement.classList.toggle('dark', isDark);
+        } catch (e) {
+          /* localStorage or matchMedia unavailable: fall back to light. */
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <noscript>
+      Wortense needs JavaScript to run. Please enable JavaScript in your browser
+      to play.
+    </noscript>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
