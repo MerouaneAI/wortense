@@ -4,4 +4,4 @@ Allow: /
 
 # The sitemap host is the single placeholder domain https://wortense.example
 # (documented in the README; swap it for the real domain before launch).
-Sitemap: https://wortense.example/sitemap.xml
+Sitemap: https://wortense.vercel.app/sitemap.xml
