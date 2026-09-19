@@ -1,3 +1,4 @@
+import { m } from 'framer-motion'
 import { RotateCcw } from 'lucide-react'
 import { MAX_ATTEMPTS } from '../config'
 import { useGame } from '../state/GameProvider'
@@ -32,7 +33,12 @@ export function ResultsScreen({ celebrate }: ResultsScreenProps) {
 	const highlightBucket = mode === 'daily' && won ? state.attempts.length : null
 
 	return (
-		<div className="flex flex-1 flex-col gap-5">
+		<m.div
+			initial={reducedMotion ? { opacity: 0 } : { opacity: 0, y: 12 }}
+			animate={{ opacity: 1, y: 0 }}
+			transition={{ duration: reducedMotion ? 0.12 : 0.35 }}
+			className="flex flex-1 flex-col gap-5"
+		>
 			{showConfetti ? <Confetti /> : null}
 
 			<div className="text-center">
@@ -58,6 +64,8 @@ export function ResultsScreen({ celebrate }: ResultsScreenProps) {
 							key={entry.text}
 							entry={entry}
 							position={index + 1}
+							index={index}
+							reducedMotion={reducedMotion}
 						/>
 					))}
 				</ol>
@@ -85,6 +93,6 @@ export function ResultsScreen({ celebrate }: ResultsScreenProps) {
 					</button>
 				)}
 			</div>
-		</div>
+		</m.div>
 	)
 }

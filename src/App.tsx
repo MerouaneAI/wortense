@@ -1,7 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { AnimatePresence, LazyMotion, domAnimation, m } from 'framer-motion'
 import { loadOnboarded, saveOnboarded } from './lib/storage'
 import { SettingsProvider } from './state/SettingsProvider'
 import { StatsProvider } from './state/StatsProvider'
+import { EffectsProvider } from './state/EffectsProvider'
 import { GameProvider, useGame } from './state/GameProvider'
 import { ErrorBoundary } from './components/ErrorBoundary'
 import { Header } from './components/Header'
@@ -15,6 +17,47 @@ import { ResultsScreen } from './components/ResultsScreen'
 import { HowToPlayModal } from './components/HowToPlayModal'
 import { StatsModal } from './components/StatsModal'
 import { SettingsModal } from './components/SettingsModal'
+
+/** A non-blocking banner shown when the local day rolls over to a new daily. */
+function RolloverBanner() {
+	const { dailyNumber, setMode } = useGame()
+	const [visible, setVisible] = useState(false)
+	const prevDaily = useRef(dailyNumber)
+
+	useEffect(() => {
+		if (prevDaily.current === dailyNumber) return
+		prevDaily.current = dailyNumber
+		setVisible(true)
+	}, [dailyNumber])
+
+	return (
+		<AnimatePresence>
+			{visible ? (
+				<m.div
+					initial={{ opacity: 0, y: -8 }}
+					animate={{ opacity: 1, y: 0 }}
+					exit={{ opacity: 0, y: -8 }}
+					transition={{ duration: 0.25 }}
+					role="status"
+					aria-live="polite"
+					className="flex items-center justify-between gap-3 rounded-xl border border-line bg-surface px-3 py-2 text-sm text-ink shadow-sm"
+				>
+					<span>Daily #{dailyNumber} is ready.</span>
+					<button
+						type="button"
+						onClick={() => {
+							setMode('daily')
+							setVisible(false)
+						}}
+						className="rounded-full bg-brand px-3 py-1 text-xs font-semibold text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+					>
+						Play today
+					</button>
+				</m.div>
+			) : null}
+		</AnimatePresence>
+	)
+}
 
 /** The playable screen plus the end screen and all modals. */
 function GameScreen() {
@@ -30,10 +73,7 @@ function GameScreen() {
 	useEffect(() => {
 		if (prevStatus.current === 'playing' && state.status === 'won') {
 			setCelebrate(true)
-		} else if (
-			state.status === 'playing' &&
-			prevStatus.current !== 'playing'
-		) {
+		} else if (state.status === 'playing' && prevStatus.current !== 'playing') {
 			setCelebrate(false)
 		}
 		prevStatus.current = state.status
@@ -44,7 +84,9 @@ function GameScreen() {
 		saveOnboarded()
 	}, [])
 
-	const playing = state.status === 'playing'
+	// Keep the ladder up through the reveal flips, even after a win, so the
+	// end screen only appears once the reveal has finished (Decision: ~1.2s).
+	const showLadder = state.status === 'playing' || state.isRevealing
 
 	return (
 		<main className="mx-auto flex min-h-[100svh] w-full max-w-[480px] flex-col gap-4 px-4 pb-6 pt-2">
@@ -57,10 +99,12 @@ function GameScreen() {
 				<ModeSwitch />
 			</div>
 
+			<RolloverBanner />
+
 			{puzzle ? (
 				<div className="flex flex-1 flex-col gap-4">
 					<PuzzleHeader />
-					{playing ? (
+					{showLadder ? (
 						<>
 							<Ladder />
 							<div className="mt-auto flex flex-col gap-3">
@@ -93,13 +137,17 @@ function GameScreen() {
 export default function App() {
 	return (
 		<ErrorBoundary>
-			<SettingsProvider>
-				<StatsProvider>
-					<GameProvider>
-						<GameScreen />
-					</GameProvider>
-				</StatsProvider>
-			</SettingsProvider>
+			<LazyMotion features={domAnimation} strict>
+				<SettingsProvider>
+					<StatsProvider>
+						<EffectsProvider>
+							<GameProvider>
+								<GameScreen />
+							</GameProvider>
+						</EffectsProvider>
+					</StatsProvider>
+				</SettingsProvider>
+			</LazyMotion>
 		</ErrorBoundary>
 	)
 }
