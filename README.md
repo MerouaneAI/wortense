@@ -136,7 +136,7 @@ Any static host works; the build output is `dist/`.
 
 ### Pre-launch checklist
 
-- [ ] Replace the placeholder domain `https://wortense.example` everywhere it
+- [ ] Replace the placeholder domain `https://wortense.vercel.app` everywhere it
       appears (see below) with your real domain.
 - [ ] Set `LAUNCH_DATE` in `src/config.ts`.
 - [ ] Review every puzzle ordering (`docs/PUZZLE_REVIEW.md`).
@@ -146,7 +146,7 @@ Any static host works; the build output is `dist/`.
 
 ### Placeholder-domain locations
 
-`https://wortense.example` appears in exactly these places (one clearly
+`https://wortense.vercel.app` appears in exactly these places (one clearly
 commented spot per file):
 
 1. `src/config.ts` — `SHARE_URL`.

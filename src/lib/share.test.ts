@@ -25,7 +25,7 @@ describe('buildShareText', () => {
 			won: true,
 		})
 		expect(text).toBe(
-			'Wortense #12 · Anger · 3/4\n\n🟨⬜🟩🟩\n🟩🟨🟨🟩\n🟩🟩🟩🟩\nhttps://wortense.example',
+			'Wortense #12 · Anger · 3/4\n\n🟨⬜🟩🟩\n🟩🟨🟨🟩\n🟩🟩🟩🟩\nhttps://wortense.vercel.app',
 		)
 	})
 
@@ -59,6 +59,6 @@ describe('buildShareText', () => {
 			attempts: winAttempts,
 			won: true,
 		})
-		expect(text.endsWith('\nhttps://wortense.example')).toBe(true)
+		expect(text.endsWith('\nhttps://wortense.vercel.app')).toBe(true)
 	})
 })

@@ -2,6 +2,6 @@
 User-agent: *
 Allow: /
 
-# The sitemap host is the single placeholder domain https://wortense.example
+# The sitemap host is the single placeholder domain https://wortense.vercel.app
 # (documented in the README; swap it for the real domain before launch).
 Sitemap: https://wortense.vercel.app/sitemap.xml

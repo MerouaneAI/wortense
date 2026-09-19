@@ -2,7 +2,7 @@ import { defineConfig } from 'vitest/config'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 
-// The production origin is the placeholder https://wortense.example
+// The production origin is the placeholder https://wortense.vercel.app
 // (documented in README; the real domain is only needed for absolute OG URLs).
 export default defineConfig({
   plugins: [
