@@ -1,0 +1,7 @@
+# Wortense — allow everything; no private routes exist.
+User-agent: *
+Allow: /
+
+# The sitemap host is the single placeholder domain https://wortense.example
+# (documented in the README; swap it for the real domain before launch).
+Sitemap: https://wortense.example/sitemap.xml

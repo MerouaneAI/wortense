@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Wortense">
+  <rect width="512" height="512" rx="112" fill="#211D18" />
+  <!-- Four stacked bars of increasing length and heat, cool -> hot. -->
+  <rect x="112" y="120" width="128" height="52" rx="26" fill="#2DD4BF" />
+  <rect x="112" y="192" width="184" height="52" rx="26" fill="#38BDF8" />
+  <rect x="112" y="264" width="240" height="52" rx="26" fill="#FB923C" />
+  <rect x="112" y="336" width="288" height="52" rx="26" fill="#EF4444" />
+</svg>

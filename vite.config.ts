@@ -9,7 +9,12 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.svg'],
+      includeAssets: [
+        'favicon.svg',
+        'icon.svg',
+        'apple-touch-icon.png',
+        'og-image.png',
+      ],
       manifest: {
         name: 'Wortense',
         short_name: 'Wortense',
@@ -22,7 +27,7 @@ export default defineConfig({
         orientation: 'portrait',
         theme_color: '#faf7f2',
         background_color: '#faf7f2',
-        // These PNG icons are produced by `npm run icons` (Phase 12); the
+        // These PNG icons are produced by npm run icons (this phase); the
         // manifest references them ahead of time so no code change is needed.
         icons: [
           { src: 'icon-192.png', sizes: '192x192', type: 'image/png' },
@@ -40,6 +45,5 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     include: ['src/**/*.test.{ts,tsx}'],
-    passWithNoTests: true,
   },
 })

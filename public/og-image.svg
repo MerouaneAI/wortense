@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" role="img" aria-label="Wortense — the shades-of-meaning word game">
+  <rect width="1200" height="630" fill="#FAF7F2" />
+  <!-- App icon -->
+  <g transform="translate(96 175)">
+    <rect width="280" height="280" rx="62" fill="#211D18" />
+    <rect x="61" y="66" width="70" height="28" rx="14" fill="#2DD4BF" />
+    <rect x="61" y="105" width="101" height="28" rx="14" fill="#38BDF8" />
+    <rect x="61" y="144" width="131" height="28" rx="14" fill="#FB923C" />
+    <rect x="61" y="183" width="158" height="28" rx="14" fill="#EF4444" />
+  </g>
+  <!-- Wordmark + tagline -->
+  <text x="440" y="300" font-family="Georgia, 'Times New Roman', serif" font-size="120" font-weight="700" fill="#1F1B16">Wortense</text>
+  <text x="444" y="372" font-family="Arial, Helvetica, sans-serif" font-size="40" fill="#6B645B">Order near-synonyms from mildest</text>
+  <text x="444" y="424" font-family="Arial, Helvetica, sans-serif" font-size="40" fill="#6B645B">to most intense. A daily word game.</text>
+  <rect x="444" y="470" width="360" height="10" rx="5" fill="#C2410C" />
+</svg>
