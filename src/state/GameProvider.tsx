@@ -10,7 +10,7 @@ import {
 	type Dispatch,
 	type ReactNode,
 } from 'react'
-import type { Mode, Puzzle } from '../types'
+import type { Difficulty, Mode, Puzzle } from '../types'
 import {
 	createInitialGameState,
 	emptyGameState,
@@ -41,6 +41,8 @@ export interface GameContextValue {
 	state: GameState
 	dispatch: Dispatch<GameAction>
 	newPractice: () => void
+	practiceDifficulty: Difficulty | null
+	setPracticeDifficulty: (d: Difficulty | null) => void
 	toast: ToastMessage | null
 	shakeNonce: number
 	reducedMotion: boolean
@@ -141,6 +143,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
 	const dailyNumber = getDailyNumber(dayIndex)
 
 	const [mode, setModeState] = useState<Mode>('daily')
+	const [practiceDifficulty, setPracticeDifficulty] = useState<Difficulty | null>(null)
 
 	const [dailyGame, dailyDispatch] = useReducer(
 		gameReducer,
@@ -221,7 +224,10 @@ export function GameProvider({ children }: { children: ReactNode }) {
 	}, [todayKey, dailyPuzzle])
 
 	const newPractice = useCallback(() => {
-		const pool = getPracticePool(dailyRotation, practiceOnlyPuzzles, dayIndex)
+		const fullPool = getPracticePool(dailyRotation, practiceOnlyPuzzles, dayIndex)
+		const pool = practiceDifficulty
+			? fullPool.filter((p) => p.difficulty === practiceDifficulty)
+			: fullPool
 		const pick = pickPracticePuzzle(pool, seenIds, () => Math.random())
 		if (!pick.puzzle) {
 			practiceDispatch({ type: 'hydrate', state: emptyGameState('practice') })
@@ -233,15 +239,27 @@ export function GameProvider({ children }: { children: ReactNode }) {
 			state: createInitialGameState(pick.puzzle, 'practice'),
 		})
 		setSeenIds(pick.seenIds)
-	}, [dayIndex, seenIds])
+	}, [dayIndex, seenIds, practiceDifficulty])
 
 	// Auto-pick the first practice puzzle when practice mode has none yet.
 	useEffect(() => {
 		if (mode !== 'practice' || practiceGame.puzzleId !== '') return
-		const pool = getPracticePool(dailyRotation, practiceOnlyPuzzles, dayIndex)
+		const fullPool = getPracticePool(dailyRotation, practiceOnlyPuzzles, dayIndex)
+		const pool = practiceDifficulty
+			? fullPool.filter((p) => p.difficulty === practiceDifficulty)
+			: fullPool
 		if (pool.length === 0) return
 		newPractice()
-	}, [mode, practiceGame.puzzleId, dayIndex, newPractice])
+	}, [mode, practiceGame.puzzleId, dayIndex, newPractice, practiceDifficulty])
+
+	// When the difficulty filter changes mid-game, pick a new matching puzzle.
+	const prevDiffRef = useRef(practiceDifficulty)
+	useEffect(() => {
+		if (prevDiffRef.current === practiceDifficulty) return
+		prevDiffRef.current = practiceDifficulty
+		if (mode !== 'practice') return
+		newPractice()
+	}, [practiceDifficulty, mode, newPractice])
 
 	const state = mode === 'daily' ? dailyGame : practiceGame
 	const dispatch = mode === 'daily' ? dailyDispatch : practiceDispatch
@@ -280,6 +298,8 @@ export function GameProvider({ children }: { children: ReactNode }) {
 			state,
 			dispatch,
 			newPractice,
+			practiceDifficulty,
+			setPracticeDifficulty,
 			toast,
 			shakeNonce,
 			reducedMotion,
@@ -292,6 +312,8 @@ export function GameProvider({ children }: { children: ReactNode }) {
 			state,
 			dispatch,
 			newPractice,
+			practiceDifficulty,
+			setPracticeDifficulty,
 			toast,
 			shakeNonce,
 			reducedMotion,

@@ -89,6 +89,7 @@ describe('generic JSON helpers', () => {
 			typeof (v as { hello?: unknown }).hello === 'string'
 		expect(readJSON('daily', guard)).toEqual({ hello: 'world' })
 
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		const rejectAll = (_v: unknown): _v is never => false
 		expect(readJSON('daily', rejectAll)).toBeNull()
 	})

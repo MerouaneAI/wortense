@@ -17,6 +17,7 @@ import { ResultsScreen } from './components/ResultsScreen'
 import { HowToPlayModal } from './components/HowToPlayModal'
 import { StatsModal } from './components/StatsModal'
 import { SettingsModal } from './components/SettingsModal'
+import { DifficultyPicker } from './components/DifficultyPicker'
 
 /** A non-blocking banner shown when the local day rolls over to a new daily. */
 function RolloverBanner() {
@@ -100,6 +101,7 @@ function GameScreen() {
 			</div>
 
 			<RolloverBanner />
+			<DifficultyPicker />
 
 			{puzzle ? (
 				<div className="flex flex-1 flex-col gap-4">
